@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to the Quiz App!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp" />
+
+    <!-- ImageView to display the image from the internet -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/welcomeText"
+        android:layout_marginTop="24dp"
+        android:contentDescription="Quiz Image" />
+
+    <Button
+        android:id="@+id/startQuizButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_500"
+        android:text="Start Quiz"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="24dp" />
+
+    <Button
+        android:id="@+id/idBtnStartQuiz2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startQuizButton"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/purple_500"
+        android:text="Start Quiz 2"
+        android:textAllCaps="false"
+        android:padding="8dp" />
+</RelativeLayout>
