@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -11,11 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.squareup.picasso.Picasso;
@@ -34,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean quizFinished = false;
     private Button endButton;
 
-
     Random random;
-        int currentScore = 0, questionAttempted = 0, currentPos;
+    int currentScore = 0, questionAttempted = 0, currentPos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,94 +51,37 @@ public class MainActivity extends AppCompatActivity {
         getQuizQuestion(quizModalArrayList);
         currentPos = random.nextInt(quizModalArrayList.size());
         setDataToViews(currentPos);
-        option1Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countDownTimer.cancel();
-                if (quizModalArrayList.get(currentPos).getAnswer().trim().toLowerCase()
-                        .equals(option1Btn.getText().toString().trim().toLowerCase(Locale.ROOT))) {
-                    currentScore++;
-                }
-                questionAttempted++;
-                if (!quizModalArrayList.isEmpty()) {
-                    currentPos = random.nextInt(quizModalArrayList.size());
-                    setDataToViews(currentPos);
-                } else {
-                    showBottomSheet();
-                }
-            }
-        });
 
-        option2Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countDownTimer.cancel();
-                if (quizModalArrayList.get(currentPos).getAnswer().trim().toLowerCase()
-                        .equals(option2Btn.getText().toString().trim().toLowerCase(Locale.ROOT))) {
-                    currentScore++;
-                }
-                questionAttempted++;
-                if (!quizModalArrayList.isEmpty()) {
-                    currentPos = random.nextInt(quizModalArrayList.size());
-                    setDataToViews(currentPos);
-                } else {
-                    showBottomSheet();
-                }
-            }
-        });
+        option1Btn.setOnClickListener(v -> handleOptionClick(option1Btn));
+        option2Btn.setOnClickListener(v -> handleOptionClick(option2Btn));
+        option3Btn.setOnClickListener(v -> handleOptionClick(option3Btn));
+        option4Btn.setOnClickListener(v -> handleOptionClick(option4Btn));
 
-        option3Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countDownTimer.cancel();
-                if (quizModalArrayList.get(currentPos).getAnswer().trim().toLowerCase()
-                        .equals(option3Btn.getText().toString().trim().toLowerCase(Locale.ROOT))) {
-                    currentScore++;
-                }
-                questionAttempted++;
-                if (!quizModalArrayList.isEmpty()) {
-                    currentPos = random.nextInt(quizModalArrayList.size());
-                    setDataToViews(currentPos);
-                } else {
-                    showBottomSheet();
-                }
-            }
-        });
-
-        option4Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countDownTimer.cancel();
-                if (quizModalArrayList.get(currentPos).getAnswer().trim().toLowerCase()
-                        .equals(option4Btn.getText().toString().trim().toLowerCase(Locale.ROOT))) {
-                    currentScore++;
-                }
-                questionAttempted++;
-                if (!quizModalArrayList.isEmpty()) {
-                    currentPos = random.nextInt(quizModalArrayList.size());
-                    setDataToViews(currentPos);
-                } else {
-                    showBottomSheet();
-                }
-            }
-        });
         String imageUrl = "https://static.wikitide.net/greatcharacterswiki/0/0b/Nickelodeon_SpongeBob_SquarePants_Characters_Cast.png";
         ImageView imageView = findViewById(R.id.imageView);
         Picasso.get()
-                .load(imageUrl)  // The image URL
-                .into(imageView);  // The ImageView where the image will be loaded
+                .load(imageUrl)
+                .into(imageView);
+
         endButton = findViewById(R.id.idBtnEnd);
-        endButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // stopTimer(); // Stop the timer
-                showBottomSheet(); // Show the bottom sheet
-            }
-        });
+        endButton.setOnClickListener(v -> showBottomSheet());
+    }
+
+    private void handleOptionClick(Button optionBtn) {
+        countDownTimer.cancel();
+        if (quizModalArrayList.get(currentPos).getAnswer().trim().toLowerCase().equals(optionBtn.getText().toString().trim().toLowerCase(Locale.ROOT))) {
+            currentScore++;
+        }
+        questionAttempted++;
+        if (!quizModalArrayList.isEmpty()) {
+            currentPos = random.nextInt(quizModalArrayList.size());
+            setDataToViews(currentPos);
+        } else {
+            showBottomSheet();
+        }
     }
 
     private void startTimer() {
-        // Cancel any existing timer before starting a new one
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
@@ -149,46 +89,41 @@ public class MainActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(21000, 1000) { // 21 seconds
             @Override
             public void onTick(long millisUntilFinished) {
-                timerTV.setText("Time Left: " + millisUntilFinished / 1000 + "s"); // Update timer
+                timerTV.setText("Time Left: " + millisUntilFinished / 1000 + "s");
             }
 
             @Override
             public void onFinish() {
-                // Handle timer expiration: move to the next question
+                // Play sound effect on timer expiration
+                MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.sadbob);
+                mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(mp -> mp.release()); // Release the MediaPlayer resource after playback
+
                 questionAttempted++;
                 if (quizModalArrayList.isEmpty() || questionAttempted >= 10 || quizFinished) {
-                    // Stop the timer and show final score
-                    showBottomSheet(); // Display the score
-                    quizFinished = true; // Mark the quiz as finished
-                    return; // Prevent further operations
+                    showBottomSheet();
+                    quizFinished = true;
+                    return;
                 }
 
-                // Remove the current question to avoid repetition
                 quizModalArrayList.remove(currentPos);
 
-                // Set data for the next question
                 if (!quizModalArrayList.isEmpty()) {
                     currentPos = random.nextInt(quizModalArrayList.size());
-                    setDataToViews(currentPos); // Update the UI
-                    startTimer(); // Restart the timer for the next question
+                    setDataToViews(currentPos);
+                    startTimer();
                 }
             }
         }.start();
     }
+
     private void saveHighscore() {
-        // Get the current highscore stored in SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("QuizHighscores", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Use the actual current score from the quiz
-        int currentScore = this.currentScore; // Use the score calculated during the quiz
-
-        // Get the previous highscore for Quiz 1
+        int currentScore = this.currentScore;
         int previousHighscore = sharedPreferences.getInt("quiz1_highscore", 0);
 
-        // Only save the new highscore if it is higher than the previous one
         if (currentScore > previousHighscore) {
-            // Save the new highscore for Quiz 1
             editor.putInt("quiz1_highscore", currentScore);
             editor.apply();
         }
@@ -201,38 +136,27 @@ public class MainActivity extends AppCompatActivity {
                 (LinearLayout) findViewById(R.id.idLLScore)
         );
 
-        // Score Display
         TextView scoreTV = bottomSheetView.findViewById(R.id.idTvScore);
         scoreTV.setText("Your Score is\n" + currentScore + "/10");
 
         saveHighscore();
 
-        // Restart Quiz Button
         Button restartQuizBtn = bottomSheetView.findViewById(R.id.idBtnRestart);
-        restartQuizBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentPos = random.nextInt(quizModalArrayList.size());
-                questionAttempted = 0;
-                currentScore = 0;
-                setDataToViews(currentPos);
-                bottomSheetDialog.dismiss();
-            }
-
+        restartQuizBtn.setOnClickListener(v -> {
+            currentPos = random.nextInt(quizModalArrayList.size());
+            questionAttempted = 0;
+            currentScore = 0;
+            setDataToViews(currentPos);
+            bottomSheetDialog.dismiss();
         });
 
-        // Back to Home Button
         Button backToHomeBtn = bottomSheetView.findViewById(R.id.idBtnBackToHome);
-        backToHomeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StartQuizActivity.class);
-                startActivity(intent); // Navigate to StartQuizActivity
-                finish(); // Close the current activity
-            }
+        backToHomeBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StartQuizActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        // Finalize Bottom Sheet
         bottomSheetDialog.setCancelable(false);
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
@@ -242,18 +166,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    private void setDataToViews(int currentPos){
+    private void setDataToViews(int currentPos) {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
 
-        questionNumberTV.setText("Questions Attempted: "+questionAttempted + "/10");
-        if(questionAttempted >= 10){
+        questionNumberTV.setText("Questions Attempted: " + questionAttempted + "/10");
+        if (questionAttempted >= 10) {
             countDownTimer.cancel();
             showBottomSheet();
-        }
-        else{
+        } else {
             questionTV.setText(quizModalArrayList.get(currentPos).getQuestion());
             option1Btn.setText(quizModalArrayList.get(currentPos).getQuestion1());
             option2Btn.setText(quizModalArrayList.get(currentPos).getQuestion2());
@@ -261,13 +183,6 @@ public class MainActivity extends AppCompatActivity {
             option4Btn.setText(quizModalArrayList.get(currentPos).getQuestion4());
             startTimer();
         }
-
-    }
-    private void onQuizFinished() {
-        saveHighscore();  // Save the current highscore
-
-        // Show bottom sheet or whatever result screen you have
-        showBottomSheet();
     }
 
     private void getQuizQuestion(ArrayList<QuizModal> quizModalArrayList) {
@@ -282,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         quizModalArrayList.add(new QuizModal("What does Squidward play?", "Clarinet", "Guitar", "Trumpet", "Drums", "Clarinet"));
         quizModalArrayList.add(new QuizModal("What type of animal is Sandy Cheeks?", "A dog", "A squirrel", "A cat", "A rabbit", "A squirrel"));
         quizModalArrayList.add(new QuizModal("What is Mr. Krabs' favorite thing?", "Gold", "Money", "Crabs", "Fish", "Money"));
-        quizModalArrayList.add(new QuizModal("What is Plankton's main goal?", "To steal Mr. Krabs' money", "To make friends", "To take over Bikini Bottom", "To open a rival restaurant", "To steal Mr. Krabs' money"));
+        quizModalArrayList.add(new QuizModal("What is Plankton's main goal?", "To steal Mr. Krabs' money", "To make friends", "To take over Bikini Bottom", "To open a restaurant", "To steal Mr. Krabs' money"));
         quizModalArrayList.add(new QuizModal("Who is the voice of SpongeBob SquarePants?", "Tom Kenny", "Billy West", "John DiMaggio", "Dan Castellaneta", "Tom Kenny"));
         quizModalArrayList.add(new QuizModal("What is the name of SpongeBob's boating school teacher?", "Ms. Frizzle", "Mrs. Puff", "Mr. Krabs", "Squidward", "Mrs. Puff"));
         quizModalArrayList.add(new QuizModal("What is the name of SpongeBob's favorite song?", "The Campfire Song Song", "Ripped Pants", "F.U.N. Song", "The Krabby Patty Song", "The Campfire Song Song"));
@@ -291,7 +206,16 @@ public class MainActivity extends AppCompatActivity {
         quizModalArrayList.add(new QuizModal("Who is the superhero alter ego of SpongeBob?", "Captain Man", "Super Sponge", "The Quickster", "Merman Man", "The Quickster"));
         quizModalArrayList.add(new QuizModal("What is the name of SpongeBob's boss?", "Squidward", "Sandy Cheeks", "Mr. Krabs", "Plankton", "Mr. Krabs"));
         quizModalArrayList.add(new QuizModal("Which character is always trying to steal the Krabby Patty secret formula?", "Squidward", "Patrick", "Plankton", "Sandy", "Plankton"));
+        quizModalArrayList.add(new QuizModal("What is SpongeBob's favorite food?", "Kelp Shake", "Krabby Patty", "Pickles", "Spaghetti", "Krabby Patty"));
+        quizModalArrayList.add(new QuizModal("What is the name of SpongeBob's boss?", "Squidward", "Sandy Cheeks", "Mr. Krabs", "Plankton", "Mr. Krabs"));
+        quizModalArrayList.add(new QuizModal("Who is the owner of the Chum Bucket?", "SpongeBob", "Plankton", "Mr. Krabs", "Patrick", "Plankton"));
+        quizModalArrayList.add(new QuizModal("Which character is always wearing a tie?", "Patrick", "Sandy Cheeks", "Squidward", "Mr. Krabs", "Squidward"));
+        quizModalArrayList.add(new QuizModal("What is the name of the jellyfish that lives with Patrick?", "Squishy", "Jelly", "Moby", "Frank", "Squishy"));
+        quizModalArrayList.add(new QuizModal("Who runs the Krusty Krab 2?", "Mr. Krabs", "SpongeBob", "Patrick", "Squidward", "Mr. Krabs"));
+        quizModalArrayList.add(new QuizModal("Who does SpongeBob idolize?", "Plankton", "Mrs. Puff", "Sandy Cheeks", "Krusty Krab", "Sandy Cheeks"));
+        quizModalArrayList.add(new QuizModal("What does Squidward do for fun?", "He plays clarinet", "He likes to go to the beach", "He goes jellyfishing", "He enjoys working", "He plays clarinet"));
+        quizModalArrayList.add(new QuizModal("What is Sandy's favorite hobby?", "Science", "Jellyfishing", "Tennis", "Rock climbing", "Science"));
+        quizModalArrayList.add(new QuizModal("What is the name of SpongeBob's favorite movie?", "The Adventures of Mermaid Man and Barnacle Boy", "SpongeBob SquarePants: The Movie", "Jaws", "The Fast and the Furious", "SpongeBob SquarePants: The Movie"));
+
     }
 }
-
-

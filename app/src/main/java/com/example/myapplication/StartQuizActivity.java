@@ -28,7 +28,7 @@ public class StartQuizActivity extends AppCompatActivity {
     private long prevIdleTime = 0;
     private long prevTotalTime = 0;
     private SoundPool soundPool;
-    private int buttonClickSoundId, spongebobSoundId;
+    private int buttonClickSoundId, spongebobSoundId, helpSoundId; // Added help sound ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class StartQuizActivity extends AppCompatActivity {
         startQuiz2Button = findViewById(R.id.idBtnStartQuiz2);
         Button highscoreButton = findViewById(R.id.idBtnHighscore);
         Button spongebobSoundButton = findViewById(R.id.idBtnSpongebobSound); // Spongebob button
+        Button helpButton = findViewById(R.id.idBtnHelp); // New Help button
         ImageView imageView = findViewById(R.id.imageView);
 
         // Initialize TextViews for FPS and CPU usage
@@ -54,10 +55,11 @@ public class StartQuizActivity extends AppCompatActivity {
 
         // Initialize SoundPool and load sounds
         soundPool = new SoundPool.Builder()
-                .setMaxStreams(2) // Max two simultaneous sounds
+                .setMaxStreams(3) // Max three simultaneous sounds
                 .build();
         buttonClickSoundId = soundPool.load(this, R.raw.button_click, 1); // Load button click sound
         spongebobSoundId = soundPool.load(this, R.raw.spongebob_sound, 1); // Load Spongebob sound
+        helpSoundId = soundPool.load(this, R.raw.ping_missing, 1); // Load help sound (new sound)
 
         // Start Quiz 1 button click listener
         startQuizButton.setOnClickListener(v -> {
@@ -83,6 +85,11 @@ public class StartQuizActivity extends AppCompatActivity {
         // Spongebob sound button click listener
         spongebobSoundButton.setOnClickListener(v -> {
             soundPool.play(spongebobSoundId, 1.0f, 1.0f, 1, 0, 1.0f); // Play Spongebob sound
+        });
+
+        // Help button click listener (new feature)
+        helpButton.setOnClickListener(v -> {
+            soundPool.play(helpSoundId, 1.0f, 1.0f, 1, 0, 1.0f); // Play help sound when clicked
         });
 
         // Start FPS monitoring
