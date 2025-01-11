@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="70dp"
         android:text="FPS: Calculating..."
         android:textSize="16sp"
         android:textColor="@color/black" />
@@ -97,11 +97,11 @@
         android:layout_below="@+id/idTvFPS"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="-61dp"
-        android:layout_marginEnd="155dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="-70dp"
+        android:layout_marginEnd="160dp"
         android:backgroundTint="@color/brown"
-        android:text="?"
+        android:text="\?"
         android:textColor="@color/asd"
         android:textSize="30sp" />
 
