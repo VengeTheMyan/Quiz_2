@@ -38,7 +38,7 @@
         android:layout_below="@id/startQuizButton"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/purple_500"
-        android:text="Shrek Quiz 2"
+        android:text="Shrek Quiz"
         android:textAllCaps="false"
         android:padding="8dp" />
 

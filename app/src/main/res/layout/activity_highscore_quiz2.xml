@@ -10,7 +10,7 @@
         android:id="@+id/tvQuiz2Highscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Highscore for Quiz 2: 0"
+        android:text="Highscore for Shrek Quiz: 0"
         android:textSize="18sp"
         android:layout_marginBottom="16dp"/>
 

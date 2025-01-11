@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -123,6 +125,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        String imageUrl = "https://static.wikitide.net/greatcharacterswiki/0/0b/Nickelodeon_SpongeBob_SquarePants_Characters_Cast.png";
+        ImageView imageView = findViewById(R.id.imageView);
+        Picasso.get()
+                .load(imageUrl)  // The image URL
+                .into(imageView);  // The ImageView where the image will be loaded
         endButton = findViewById(R.id.idBtnEnd);
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         quizModalArrayList.add(new QuizModal("Who is the owner of the Krusty Krab?", "Squidward", "Sandy Cheeks", "Mr. Krabs", "Plankton", "Mr. Krabs"));
         quizModalArrayList.add(new QuizModal("What is the name of the Krusty Krab's secret formula?", "The Krabby Patty Secret Formula", "The Golden Recipe", "The Big Burger", "The Secret Ingredient", "The Krabby Patty Secret Formula"));
         quizModalArrayList.add(new QuizModal("Who is SpongeBob's neighbor?", "Patrick Star", "Squidward Tentacles", "Mr. Krabs", "Sandy Cheeks", "Squidward Tentacles"));
-        quizModalArrayList.add(new QuizModal("What does Squidward play?", "Violin", "Guitar", "Trumpet", "Drums", "Violin"));
+        quizModalArrayList.add(new QuizModal("What does Squidward play?", "Clarinet", "Guitar", "Trumpet", "Drums", "Clarinet"));
         quizModalArrayList.add(new QuizModal("What type of animal is Sandy Cheeks?", "A dog", "A squirrel", "A cat", "A rabbit", "A squirrel"));
         quizModalArrayList.add(new QuizModal("What is Mr. Krabs' favorite thing?", "Gold", "Money", "Crabs", "Fish", "Money"));
         quizModalArrayList.add(new QuizModal("What is Plankton's main goal?", "To steal Mr. Krabs' money", "To make friends", "To take over Bikini Bottom", "To open a rival restaurant", "To steal Mr. Krabs' money"));

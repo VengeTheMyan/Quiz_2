@@ -45,8 +45,8 @@ public class HighscoreActivity extends AppCompatActivity {
         int quiz2Highscore = sharedPreferences.getInt("quiz2_highscore", 0);  // Default to 0 if no score saved
 
         // Display the high scores in the TextViews
-        quiz1HighscoreTV.setText("Quiz 1 Highscore: " + quiz1Highscore);
-        quiz2HighscoreTV.setText("Quiz 2 Highscore: " + quiz2Highscore);
+        quiz1HighscoreTV.setText("Spongebob Quiz Highscore: " + quiz1Highscore);
+        quiz2HighscoreTV.setText("Shrek Quiz Highscore: " + quiz2Highscore);
 
         // Set up click listener for "Reset Highscores"
         resetHighscoresTV.setOnClickListener(new View.OnClickListener() {
@@ -62,8 +62,8 @@ public class HighscoreActivity extends AppCompatActivity {
                 editor.apply();
 
                 // Update the UI to reflect the reset scores
-                quiz1HighscoreTV.setText("Quiz 1 Highscore: 0");
-                quiz2HighscoreTV.setText("Quiz 2 Highscore: 0");
+                quiz1HighscoreTV.setText("Spongebob Quiz Highscore: 0");
+                quiz2HighscoreTV.setText("Spongebob Quiz Highscore: 0");
 
                 // Display a toast message to inform the user
                 Toast.makeText(HighscoreActivity.this, "Highscores Reset", Toast.LENGTH_SHORT).show();

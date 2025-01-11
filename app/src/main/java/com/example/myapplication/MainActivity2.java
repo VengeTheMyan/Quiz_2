@@ -7,12 +7,14 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -125,7 +127,11 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
         });
-
+        String imageUrl = "https://static.wikitide.net/greatcharacterswiki/9/9b/GoodShrekImage.png";
+        ImageView imageView = findViewById(R.id.imageView);
+        Picasso.get()
+                .load(imageUrl)  // The image URL
+                .into(imageView);  // The ImageView where the image will be loaded
         endButton = findViewById(R.id.idBtnEnd);
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +139,7 @@ public class MainActivity2 extends AppCompatActivity {
                 showBottomSheet(); // Show the bottom sheet
             }
         });
+
     }
 
     private void startTimer() {
