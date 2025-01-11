@@ -6,6 +6,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,10 +18,15 @@ public class HighscoreActivity extends AppCompatActivity {
 
     private TextView quiz1HighscoreTV, quiz2HighscoreTV, resetHighscoresTV;
 
+    private static final String CHANNEL_ID = "highscore_reset_channel"; // Unique channel ID
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);  // Ensure this points to the correct layout
+
+        // Create notification channel for highscore reset notifications
+        createNotificationChannel();
 
         // Initialize the TextViews for displaying high scores
         quiz1HighscoreTV = findViewById(R.id.idTvQuiz1Highscore);
@@ -58,6 +67,9 @@ public class HighscoreActivity extends AppCompatActivity {
 
                 // Display a toast message to inform the user
                 Toast.makeText(HighscoreActivity.this, "Highscores Reset", Toast.LENGTH_SHORT).show();
+
+                // Send a notification about the highscore reset
+                sendHighscoreResetNotification();
             }
         });
     }
@@ -72,5 +84,38 @@ public class HighscoreActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // Create notification channel for Android 8.0+ (Oreo and later)
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Highscore Reset Channel";
+            String description = "Channel for highscore reset notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    // Send a notification about the highscore reset
+    private void sendHighscoreResetNotification() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Notification notification = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notification = new Notification.Builder(this, CHANNEL_ID)
+                    .setContentTitle("Highscores Reset")
+                    .setContentText("Your quiz highscores have been reset to 0.")
+                    .setSmallIcon(R.drawable.quiz_icon)  // Use your own icon here
+                    .setPriority(Notification.PRIORITY_DEFAULT)
+                    .build();
+        }
+
+        // Send the notification (0 is the notification ID)
+        notificationManager.notify(0, notification);
     }
 }

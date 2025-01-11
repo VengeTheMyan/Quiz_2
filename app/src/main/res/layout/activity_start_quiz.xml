@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/purple_500"
-        android:text="Start Quiz"
+        android:text="Spongebob Quiz"
         android:layout_below="@id/imageView"
         android:layout_marginTop="24dp" />
 
@@ -38,7 +38,7 @@
         android:layout_below="@id/startQuizButton"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/purple_500"
-        android:text="Start Quiz 2"
+        android:text="Shrek Quiz 2"
         android:textAllCaps="false"
         android:padding="8dp" />
 
