@@ -53,4 +53,43 @@
         android:textAllCaps="false"
         android:padding="8dp" />
 
+
+    <Button
+        android:id="@+id/idBtnSpongebobSound"
+        android:layout_width="149dp"
+        android:layout_height="39dp"
+        android:layout_above="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="125dp"
+        android:layout_marginEnd="121dp"
+        android:layout_marginBottom="-16dp"
+        android:backgroundTint="@color/asd"
+        android:text="Play Spongebob Sound" />
+
+    <TextView
+        android:id="@+id/idTvCPUUsage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/idTvFPS"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:text="CPU Usage: Calculating..."
+        android:textSize="16sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/idTvFPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="FPS: Calculating..."
+        android:textSize="16sp"
+        android:textColor="@color/black" />
+
+
+
 </RelativeLayout>
