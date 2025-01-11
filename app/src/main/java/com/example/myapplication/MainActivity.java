@@ -116,6 +116,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (countDownTimer != null) {
+            countDownTimer.cancel(); // Cancel timer when activity is paused
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel(); // Cancel timer when activity is destroyed
+        }
+    }
+
 
     private void saveHighscore() {
         SharedPreferences sharedPreferences = getSharedPreferences("QuizHighscores", MODE_PRIVATE);

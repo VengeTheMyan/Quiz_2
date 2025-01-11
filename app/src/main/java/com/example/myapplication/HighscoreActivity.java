@@ -63,7 +63,7 @@ public class HighscoreActivity extends AppCompatActivity {
 
                 // Update the UI to reflect the reset scores
                 quiz1HighscoreTV.setText("Spongebob Quiz Highscore: 0");
-                quiz2HighscoreTV.setText("Spongebob Quiz Highscore: 0");
+                quiz2HighscoreTV.setText("Shrek Quiz Highscore: 0");
 
                 // Display a toast message to inform the user
                 Toast.makeText(HighscoreActivity.this, "Highscores Reset", Toast.LENGTH_SHORT).show();

@@ -125,6 +125,22 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }.start();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (countDownTimer != null) {
+            countDownTimer.cancel(); // Cancel timer when activity is paused
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel(); // Cancel timer when activity is destroyed
+        }
+    }
+
 
     private void saveHighscore() {
         // Get the current highscore stored in SharedPreferences
@@ -144,6 +160,7 @@ public class MainActivity2 extends AppCompatActivity {
             editor.apply();
         }
     }
+
 
     private void showBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity2.this);
