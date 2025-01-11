@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -37,5 +38,16 @@ public class StartQuizActivity extends AppCompatActivity {
             Intent intent = new Intent(StartQuizActivity.this, MainActivity2.class);
             startActivity(intent);
         });
+        Button highscoreButton = findViewById(R.id.idBtnHighscore);
+        highscoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Action when the button is clicked
+                // For example, opening a new activity to show the highscore
+                Intent intent = new Intent(StartQuizActivity.this, HighscoreActivity.class);
+                startActivity(intent); // Open the highscore activity
+            }
+        });
+
     }
 }

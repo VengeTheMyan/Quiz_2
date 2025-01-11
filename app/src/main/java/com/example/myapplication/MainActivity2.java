@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -164,14 +165,31 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }.start();
     }
+    private void saveHighscore() {
+        // Get the current highscore stored in SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("QuizHighscores", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        // Use the actual current score from the quiz
+        int currentScore = this.currentScore; // Use the score calculated during the quiz
+
+        // Get the previous highscore for Quiz 2
+        int previousHighscore = sharedPreferences.getInt("quiz2_highscore", 0);
+
+        // Only save the new highscore if it is higher than the previous one
+        if (currentScore > previousHighscore) {
+            // Save the new highscore for Quiz 2
+            editor.putInt("quiz2_highscore", currentScore);
+            editor.apply();
+        }
+    }
     private void showBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity2.this);
         View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(
                 R.layout.score_bottom_sheet,
                 (LinearLayout) findViewById(R.id.idLLScore)
         );
-
+        saveHighscore();
         TextView scoreTV = bottomSheetView.findViewById(R.id.idTvScore);
         scoreTV.setText("Your Score is\n" + currentScore + "/10");
 

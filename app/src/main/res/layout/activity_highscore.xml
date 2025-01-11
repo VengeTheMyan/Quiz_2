@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HighscoreActivity">
+
+    <!-- Toolbar at the top -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/purple_500"
+        android:elevation="4dp" />
+
+    <!-- The rest of your layout content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <TextView
+            android:id="@+id/idTvQuiz1Highscore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quiz 1 Highscore: 0"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/light_blue"
+            android:layout_marginTop="50dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/idTvQuiz2Highscore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quiz 2 Highscore: 0"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/light_blue"
+            android:padding="16dp"
+            android:background="@drawable/rounded_background"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/idTvResetHighscores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset Highscores"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/blue"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

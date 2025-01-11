@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple_200">#9D0F0F</color>
     <color name="purple_500">#0F9D58</color>
-    <color name="purple_700">#0F9D58</color>
+    <color name="light_blue">#0093BD</color>
     <color name="asd">#DABD03</color>
-    <color name="teal700">#FF018786</color>
+    <color name="blue">#0020BA</color>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -130,9 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 showBottomSheet(); // Show the bottom sheet
             }
         });
-
-
-
     }
 
     private void startTimer() {
@@ -170,6 +168,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
     }
+    private void saveHighscore() {
+        // Get the current highscore stored in SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("QuizHighscores", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Use the actual current score from the quiz
+        int currentScore = this.currentScore; // Use the score calculated during the quiz
+
+        // Get the previous highscore for Quiz 1
+        int previousHighscore = sharedPreferences.getInt("quiz1_highscore", 0);
+
+        // Only save the new highscore if it is higher than the previous one
+        if (currentScore > previousHighscore) {
+            // Save the new highscore for Quiz 1
+            editor.putInt("quiz1_highscore", currentScore);
+            editor.apply();
+        }
+    }
 
     private void showBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
@@ -182,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
         TextView scoreTV = bottomSheetView.findViewById(R.id.idTvScore);
         scoreTV.setText("Your Score is\n" + currentScore + "/10");
 
+        saveHighscore();
+
         // Restart Quiz Button
         Button restartQuizBtn = bottomSheetView.findViewById(R.id.idBtnRestart);
         restartQuizBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 setDataToViews(currentPos);
                 bottomSheetDialog.dismiss();
             }
+
         });
 
         // Back to Home Button
@@ -237,6 +256,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+    private void onQuizFinished() {
+        saveHighscore();  // Save the current highscore
+
+        // Show bottom sheet or whatever result screen you have
+        showBottomSheet();
+    }
+
     private void getQuizQuestion(ArrayList<QuizModal> quizModalArrayList) {
         quizModalArrayList.add(new QuizModal("What is SpongeBob's job?", "A lifeguard", "A chef at the Krusty Krab", "A teacher", "A mailman", "A chef at the Krusty Krab"));
         quizModalArrayList.add(new QuizModal("Who is SpongeBob's best friend?", "Patrick Star", "Squidward Tentacles", "Mr. Krabs", "Plankton", "Patrick Star"));

@@ -41,4 +41,16 @@
         android:text="Start Quiz 2"
         android:textAllCaps="false"
         android:padding="8dp" />
+
+    <Button
+        android:id="@+id/idBtnHighscore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idBtnStartQuiz2"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/blue"
+        android:text="Highscore"
+        android:textAllCaps="false"
+        android:padding="8dp" />
+
 </RelativeLayout>
