@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <!-- Score Display -->
     <TextView
         android:id="@+id/idTvScore"
         android:layout_width="match_parent"
@@ -21,7 +20,6 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- Buttons Row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +27,6 @@
         android:gravity="center"
         android:layout_marginTop="10dp">
 
-        <!-- Restart Quiz Button -->
         <Button
             android:id="@+id/idBtnRestart"
             android:layout_width="0dp"
@@ -41,7 +38,6 @@
             android:textAllCaps="false"
             android:textStyle="bold" />
 
-        <!-- Back to Home Button -->
         <Button
             android:id="@+id/idBtnBackToHome"
             android:layout_width="0dp"

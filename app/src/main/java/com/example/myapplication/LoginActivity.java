@@ -25,10 +25,10 @@ public class LoginActivity extends AppCompatActivity {
                 String username = usernameInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
 
-                if (username.equals("1") && password.equals("2")) {
+                if (username.equals("user") && password.equals("password")) {
                     Intent intent = new Intent(LoginActivity.this, StartQuizActivity.class);
                     startActivity(intent);
-                    finish(); // Close the login activity
+                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                 }

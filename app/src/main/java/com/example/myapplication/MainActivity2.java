@@ -53,7 +53,6 @@ public class MainActivity2 extends AppCompatActivity {
         currentPos = random.nextInt(quizModalArrayList.size());
         setDataToViews(currentPos);
 
-        // Set OnClickListener for options (same for all)
         View.OnClickListener optionClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +85,7 @@ public class MainActivity2 extends AppCompatActivity {
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomSheet(); // Show the bottom sheet
+                showBottomSheet();
             }
         });
     }
@@ -104,7 +103,7 @@ public class MainActivity2 extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                // Play sound when timer finishes
+                // Play sound
                 MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity2.this, R.raw.hello_there); // Assuming you have timer_expire.mp3 in res/raw
                 mediaPlayer.start();
 
@@ -129,7 +128,7 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (countDownTimer != null) {
-            countDownTimer.cancel(); // Cancel timer when activity is paused
+            countDownTimer.cancel(); // Cancel timer when pause
         }
     }
 
@@ -137,25 +136,20 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (countDownTimer != null) {
-            countDownTimer.cancel(); // Cancel timer when activity is destroyed
+            countDownTimer.cancel(); // Cancel timer when destroyed
         }
     }
 
 
     private void saveHighscore() {
-        // Get the current highscore stored in SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("QuizHighscores", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Use the actual current score from the quiz
         int currentScore = this.currentScore;
 
-        // Get the previous highscore for Quiz 2
         int previousHighscore = sharedPreferences.getInt("quiz2_highscore", 0);
 
-        // Only save the new highscore if it is higher than the previous one
         if (currentScore > previousHighscore) {
-            // Save the new highscore for Quiz 2
             editor.putInt("quiz2_highscore", currentScore);
             editor.apply();
         }

@@ -20,8 +20,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class StartQuizActivity extends AppCompatActivity {
-    private Button startQuiz2Button; // Declare the Start Quiz 2 button
-    private TextView fpsTextView, cpuTextView; // TextViews for FPS and CPU usage
+    private Button startQuiz2Button;
+    private TextView fpsTextView, cpuTextView;
     private Handler handler = new Handler();
     private long frameCount = 0;
     private long lastFrameTimeNanos = 0;
@@ -29,78 +29,63 @@ public class StartQuizActivity extends AppCompatActivity {
     private long prevIdleTime = 0;
     private long prevTotalTime = 0;
     private SoundPool soundPool;
-    private int buttonClickSoundId, spongebobSoundId, helpSoundId; // Added help sound ID
-    private GestureDetector gestureDetector; // GestureDetector for swipe detection
+    private int buttonClickSoundId, spongebobSoundId, helpSoundId;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_quiz);
-
-        // Initialize the Start Quiz buttons and ImageView
         Button startQuizButton = findViewById(R.id.startQuizButton);
         startQuiz2Button = findViewById(R.id.idBtnStartQuiz2);
         Button highscoreButton = findViewById(R.id.idBtnHighscore);
-        Button spongebobSoundButton = findViewById(R.id.idBtnSpongebobSound); // Spongebob button
-        Button helpButton = findViewById(R.id.idBtnHelp); // New Help button
+        Button spongebobSoundButton = findViewById(R.id.idBtnSpongebobSound);
+        Button helpButton = findViewById(R.id.idBtnHelp);
         ImageView imageView = findViewById(R.id.imageView);
 
-        // Initialize TextViews for FPS and CPU usage
         fpsTextView = findViewById(R.id.idTvFPS);
         cpuTextView = findViewById(R.id.idTvCPUUsage);
 
-        // Load image using Picasso
         String imageUrl = "https://static.wikitide.net/greatcharacterswiki/f/f9/Xfgfjbvdhbvjhsdb.png";
         Picasso.get()
-                .load(imageUrl)  // The image URL
-                .into(imageView);  // The ImageView where the image will be loaded
+                .load(imageUrl)
+                .into(imageView);
 
-        // Initialize SoundPool and load sounds
         soundPool = new SoundPool.Builder()
-                .setMaxStreams(3) // Max three simultaneous sounds
+                .setMaxStreams(3)
                 .build();
-        buttonClickSoundId = soundPool.load(this, R.raw.button_click, 1); // Load button click sound
-        spongebobSoundId = soundPool.load(this, R.raw.spongebob_sound, 1); // Load Spongebob sound
-        helpSoundId = soundPool.load(this, R.raw.ping_missing, 1); // Load help sound (new sound)
+        buttonClickSoundId = soundPool.load(this, R.raw.button_click, 1);
+        spongebobSoundId = soundPool.load(this, R.raw.spongebob_sound, 1);
+        helpSoundId = soundPool.load(this, R.raw.ping_missing, 1);
 
-        // Start Quiz 1 button click listener
         startQuizButton.setOnClickListener(v -> {
             playButtonClickSound();
             Intent intent = new Intent(StartQuizActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
-        // Start Quiz 2 button click listener
         startQuiz2Button.setOnClickListener(v -> {
             playButtonClickSound();
             Intent intent = new Intent(StartQuizActivity.this, MainActivity2.class);
             startActivity(intent);
         });
 
-        // Highscore button click listener
         highscoreButton.setOnClickListener(v -> {
             playButtonClickSound();
             Intent intent = new Intent(StartQuizActivity.this, HighscoreActivity.class);
             startActivity(intent);
         });
 
-        // Spongebob sound button click listener
         spongebobSoundButton.setOnClickListener(v -> {
             soundPool.play(spongebobSoundId, 1.0f, 1.0f, 1, 0, 1.0f); // Play Spongebob sound
         });
 
-        // Help button click listener (new feature)
         helpButton.setOnClickListener(v -> {
             soundPool.play(helpSoundId, 1.0f, 1.0f, 1, 0, 1.0f); // Play help sound when clicked
         });
 
-        // Initialize GestureDetector for swipe detection
         gestureDetector = new GestureDetector(this, new GestureListener());
-
-        // Start FPS monitoring
         startFPSMonitoring();
-
-        // Start periodic CPU usage updates
         handler.post(cpuUsageRunnable);
     }
 
@@ -108,15 +93,14 @@ public class StartQuizActivity extends AppCompatActivity {
         soundPool.play(buttonClickSoundId, 1.0f, 1.0f, 1, 0, 1.0f); // Play button click sound
     }
 
-    // Detect and handle touch events
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_THRESHOLD = 100; // Minimum distance for a swipe
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100; // Minimum velocity for a swipe
+        private static final int SWIPE_THRESHOLD = 100; // Min distance for a swipe
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100; // Min velocity
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -125,7 +109,6 @@ public class StartQuizActivity extends AppCompatActivity {
             try {
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (diffX < 0) {
-                        // Left Swipe detected
                         onSwipeLeft();
                         return true;
                     }
@@ -138,9 +121,8 @@ public class StartQuizActivity extends AppCompatActivity {
         }
     }
 
-    // Handle left swipe to finish the activity or perform other actions
     private void onSwipeLeft() {
-        // Navigate to HighscoreActivity
+        // go to HighscoreActivity
         Intent intent = new Intent(StartQuizActivity.this, HighscoreActivity.class);
         startActivity(intent);
     }
@@ -192,7 +174,6 @@ public class StartQuizActivity extends AppCompatActivity {
                 totalTime += Long.parseLong(cpuStats[i]);
             }
 
-            // Calculate CPU usage
             long diffIdle = idleTime - prevIdleTime;
             long diffTotal = totalTime - prevTotalTime;
 
@@ -210,6 +191,6 @@ public class StartQuizActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(cpuUsageRunnable); // Stop CPU monitoring when activity is destroyed
-        soundPool.release(); // Release SoundPool resources
+        soundPool.release();
     }
 }

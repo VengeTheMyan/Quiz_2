@@ -13,7 +13,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp" />
 
-    <!-- ImageView to display the image from the internet -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
@@ -101,10 +100,9 @@
         android:layout_marginTop="-70dp"
         android:layout_marginEnd="160dp"
         android:backgroundTint="@color/brown"
-        android:text="\u003F"
+        android:text="@string/question_mark"
         android:textColor="@color/asd"
         android:textSize="30sp" />
 
 
 </RelativeLayout>
-<!--    android:background="@drawable/circle_button"-->

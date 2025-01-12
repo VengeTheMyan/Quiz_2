@@ -23,14 +23,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private TextView questionTV, questionNumberTV;
-    private Button option1Btn, option2Btn, option3Btn, option4Btn;
-    private ArrayList<QuizModal> quizModalArrayList;
-
-    private CountDownTimer countDownTimer;
     private TextView timerTV;
-    private boolean quizFinished = false;
+    private CountDownTimer countDownTimer;
+    private Button option1Btn, option2Btn, option3Btn, option4Btn;
     private Button endButton;
-
+    private ArrayList<QuizModal> quizModalArrayList;
+    private boolean quizFinished = false;
     Random random;
     int currentScore = 0, questionAttempted = 0, currentPos;
 
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                // Play sound effect on timer expiration
+                // Play sound when timer expires
                 MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.sadbob);
                 mediaPlayer.start();
                 mediaPlayer.setOnCompletionListener(mp -> mp.release()); // Release the MediaPlayer resource after playback
@@ -120,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (countDownTimer != null) {
-            countDownTimer.cancel(); // Cancel timer when activity is paused
+            countDownTimer.cancel();
+            // Cancel timer when activity is paused so no sound if u leave activity
         }
     }
 
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (countDownTimer != null) {
-            countDownTimer.cancel(); // Cancel timer when activity is destroyed
+            countDownTimer.cancel(); // Same here when u leave activity
         }
     }
 

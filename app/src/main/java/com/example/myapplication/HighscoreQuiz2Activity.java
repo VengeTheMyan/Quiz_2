@@ -14,12 +14,9 @@ public class HighscoreQuiz2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_highscore_quiz2);
 
         highscoreTextView = findViewById(R.id.tvQuiz2Highscore);
-
-        // Retrieve the highscore from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("QuizHighscores", MODE_PRIVATE);
         int highscore = sharedPreferences.getInt("quiz2_highscore", 0);
 
-        // Display the highscore
         highscoreTextView.setText("Highscore for Quiz 2: " + highscore);
     }
 }

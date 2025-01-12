@@ -25,12 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".HighscoreActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".Application" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".QuizModal2" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".MainActivity2"
             android:exported="false" />

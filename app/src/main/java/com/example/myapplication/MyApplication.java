@@ -9,7 +9,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Enforce Light Mode across the app
+        // make app only light mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 }
