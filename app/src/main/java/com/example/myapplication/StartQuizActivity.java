@@ -5,7 +5,8 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Choreographer;
-import android.view.View;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class StartQuizActivity extends AppCompatActivity {
     private long prevTotalTime = 0;
     private SoundPool soundPool;
     private int buttonClickSoundId, spongebobSoundId, helpSoundId; // Added help sound ID
+    private GestureDetector gestureDetector; // GestureDetector for swipe detection
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,9 @@ public class StartQuizActivity extends AppCompatActivity {
             soundPool.play(helpSoundId, 1.0f, 1.0f, 1, 0, 1.0f); // Play help sound when clicked
         });
 
+        // Initialize GestureDetector for swipe detection
+        gestureDetector = new GestureDetector(this, new GestureListener());
+
         // Start FPS monitoring
         startFPSMonitoring();
 
@@ -102,6 +107,44 @@ public class StartQuizActivity extends AppCompatActivity {
     private void playButtonClickSound() {
         soundPool.play(buttonClickSoundId, 1.0f, 1.0f, 1, 0, 1.0f); // Play button click sound
     }
+
+    // Detect and handle touch events
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final int SWIPE_THRESHOLD = 100; // Minimum distance for a swipe
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100; // Minimum velocity for a swipe
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            float diffX = e2.getX() - e1.getX();
+
+            try {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX < 0) {
+                        // Left Swipe detected
+                        onSwipeLeft();
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+    }
+
+    // Handle left swipe to finish the activity or perform other actions
+    private void onSwipeLeft() {
+        // Navigate to HighscoreActivity
+        Intent intent = new Intent(StartQuizActivity.this, HighscoreActivity.class);
+        startActivity(intent);
+    }
+
 
     private void startFPSMonitoring() {
         startTimeMillis = System.currentTimeMillis();

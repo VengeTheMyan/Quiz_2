@@ -2,8 +2,9 @@ package com.example.myapplication;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Notification;
@@ -19,6 +20,8 @@ public class HighscoreActivity extends AppCompatActivity {
     private TextView quiz1HighscoreTV, quiz2HighscoreTV, resetHighscoresTV;
 
     private static final String CHANNEL_ID = "highscore_reset_channel"; // Unique channel ID
+
+    private GestureDetector gestureDetector; // For swipe detection
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +52,64 @@ public class HighscoreActivity extends AppCompatActivity {
         quiz2HighscoreTV.setText("Shrek Quiz Highscore: " + quiz2Highscore);
 
         // Set up click listener for "Reset Highscores"
-        resetHighscoresTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Reset the highscores in SharedPreferences
-                SharedPreferences sharedPreferences = getSharedPreferences("QuizHighscores", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+        resetHighscoresTV.setOnClickListener(v -> {
+            // Reset the highscores in SharedPreferences
+            SharedPreferences sharedPreferences1 = getSharedPreferences("QuizHighscores", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences1.edit();
 
-                // Reset quiz scores to 0
-                editor.putInt("quiz1_highscore", 0);
-                editor.putInt("quiz2_highscore", 0);
-                editor.apply();
+            // Reset quiz scores to 0
+            editor.putInt("quiz1_highscore", 0);
+            editor.putInt("quiz2_highscore", 0);
+            editor.apply();
 
-                // Update the UI to reflect the reset scores
-                quiz1HighscoreTV.setText("Spongebob Quiz Highscore: 0");
-                quiz2HighscoreTV.setText("Shrek Quiz Highscore: 0");
+            // Update the UI to reflect the reset scores
+            quiz1HighscoreTV.setText("Spongebob Quiz Highscore: 0");
+            quiz2HighscoreTV.setText("Shrek Quiz Highscore: 0");
 
-                // Display a toast message to inform the user
-                Toast.makeText(HighscoreActivity.this, "Highscores Reset", Toast.LENGTH_SHORT).show();
+            // Display a toast message to inform the user
+            Toast.makeText(HighscoreActivity.this, "Highscores Reset", Toast.LENGTH_SHORT).show();
 
-                // Send a notification about the highscore reset
-                sendHighscoreResetNotification();
-            }
+            // Send a notification about the highscore reset
+            sendHighscoreResetNotification();
         });
+
+        // Initialize the GestureDetector for swipe handling
+        gestureDetector = new GestureDetector(this, new GestureListener());
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // Pass the touch event to the GestureDetector
+        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final int SWIPE_THRESHOLD = 100; // Minimum distance for a swipe
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100; // Minimum velocity for a swipe
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            float diffX = e2.getX() - e1.getX();
+
+            try {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX > 0) {
+                        // Right Swipe
+                        onSwipeRight();
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+    }
+
+    // Handle right swipe to navigate back
+    private void onSwipeRight() {
+        finish(); // Close this activity and go back to StartQuizActivity
     }
 
     // Handle the back navigation (Up button)

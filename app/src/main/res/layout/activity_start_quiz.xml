@@ -101,7 +101,7 @@
         android:layout_marginTop="-70dp"
         android:layout_marginEnd="160dp"
         android:backgroundTint="@color/brown"
-        android:text="\?"
+        android:text="\u003F"
         android:textColor="@color/asd"
         android:textSize="30sp" />
 

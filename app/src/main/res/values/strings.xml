@@ -1,3 +1,4 @@
 <resources>
     <string name="Quiz">Quiz</string>
+    <string name="question_mark">?</string>
 </resources>
